@@ -6,7 +6,7 @@
 #    By: acakste <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/18 16:32:24 by acakste           #+#    #+#              #
-#    Updated: 2018/09/19 20:03:02 by acakste          ###   ########.fr        #
+#    Updated: 2018/09/20 16:30:58 by acakste          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME):
-	@gcc -c $(FLAGS) $(SRC)
+	@gcc -c $(FLAGS) -I $(INC) $(SRC)
 	@ar rc $(NAME) $(OBJ)
 
 clean:
