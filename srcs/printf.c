@@ -54,14 +54,15 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 		write(1, "ERROR", 5);
 		exit (1);
 	}
-	//still want?
-	if (!flags->width && flags->precision == TRUE && flags->precision_count == 0 && (flags->conversion == 'x' || flags->conversion == 'X') && ft_atoi(raw) == 0)
-		return ;
+	//still want? !flags->width && 
+	if (flags->precision == TRUE && flags->precision_count == 0 && (flags->conversion == 'x' || flags->conversion == 'X') && ft_atoi(raw) == 0)
+		raw_len = 0;
+	else
+		raw_len = ft_strlen(raw);
 	//in raw, we should now have the raw data. Check flags and copy accordingly. If no flags, raw is simply copied to str.
 	//if (!flags->minus), width first.
 	//if (flags->precision_count == 0)
 	//	flags->precision_count += ft_strlen(raw);
-	raw_len = ft_strlen(raw);
 	if (flags->precision_count > raw_len)
 		raw_len = flags->precision_count;
 	if (raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
@@ -107,11 +108,11 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 
 
 	//cpy number
-	while (raw[j])
+	while (raw[j] && j < raw_len)
 	{
-		if (flags->conversion == 's' && j >= flags->precision_count)
+		//write(1, "|", 1);
+		if (flags->conversion == 's' && flags->precision == TRUE && j >= flags->precision_count)
 			break ;
-	
 		str[i + *count_out] = raw[j];
 		i++;
 		j++;
