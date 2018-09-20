@@ -14,6 +14,24 @@
 #include "../includes/ft_printf.h"
 #include <stdio.h>
 
+
+int		cpy_width(int i, t_conv_flags *flags, size_t raw_len, char *str)
+{
+	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > raw_len) // && flags->precision_count < flags->width_count
+	{
+		while (i + raw_len < flags->width_count - flags->plus)
+		{
+			str[i] = (flags->zero == TRUE) ? '0' : ' ';
+			i++;
+		}
+	}
+	return (i);
+}
+
+int		cpy_precision();
+
+
+
 void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 {
 	char	*raw;
@@ -29,12 +47,16 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	else
 		raw = get_argument(ap, flags);
 		*/
+	j = 0;
 	raw = flags->arg_function(ap, flags);
 	if (!raw)
 	{
 		write(1, "ERROR", 5);
 		exit (1);
 	}
+	//still want?
+	if (!flags->width && flags->precision == TRUE && flags->precision_count == 0 && (flags->conversion == 'x' || flags->conversion == 'X') && ft_atoi(raw) == 0)
+		return ;
 	//in raw, we should now have the raw data. Check flags and copy accordingly. If no flags, raw is simply copied to str.
 	//if (!flags->minus), width first.
 	//if (flags->precision_count == 0)
@@ -42,7 +64,16 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	raw_len = ft_strlen(raw);
 	if (flags->precision_count > raw_len)
 		raw_len = flags->precision_count;
-	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > ft_strlen(raw)) // && flags->precision_count < flags->width_count
+	if (raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
+		raw_len += 2;
+	//for   ft_printf("%#08x", 42); should print   2. (    8) -->0x00002a<--
+	if (flags->zero == TRUE && raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
+	{
+		str[i++ + *count_out] = '0';
+		str[i++ + *count_out] = flags->conversion;
+		raw_len -= 2;
+	}
+	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > raw_len) // && flags->precision_count < flags->width_count
 	{
 		while (i + raw_len < flags->width_count - flags->plus)
 		{
@@ -50,17 +81,21 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 			i++;
 		}
 	}
-
 	//printf("%d\n", i + *count_out);
 	//check if any precision. Numbers always print atleast there full length. Add zeros afterwards. Only print precision amount of chars.
 	if (flags->plus == TRUE && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
 	{
 		str[i++ + *count_out] = '+';		
 	}
-	j = 0;
+	//plus and 0x for hex
+	if (flags->zero == FALSE && raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
+	{
+		str[i++ + *count_out] = '0';
+		str[i++ + *count_out] = flags->conversion;
+	}
 	if (flags->precision == TRUE)
 	{
-		while (j + ft_strlen(raw) < flags->precision_count)
+		while (j + raw_len < flags->precision_count)
 		{
 			str[i + *count_out] = '0';
 			i++;
@@ -70,13 +105,7 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 
 	//might wanna control a negative number input somewhere
 
-	//plus and 0x for hex
-	j = 0;
-	if (raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
-	{
-		str[i++ + *count_out] = '0';
-		str[i++ + *count_out] = flags->conversion;
-	}
+
 	//cpy number
 	while (raw[j])
 	{
