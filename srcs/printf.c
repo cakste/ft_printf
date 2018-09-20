@@ -63,11 +63,17 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	//if (!flags->minus), width first.
 	//if (flags->precision_count == 0)
 	//	flags->precision_count += ft_strlen(raw);
-	if (flags->precision_count > raw_len)
+	if (flags->conversion == 's' && flags->precision && raw_len == 0)
+		flags->precision_count = 0;
+	if (flags->conversion == 's' && flags->precision && flags->precision_count < raw_len)
+		raw_len -= flags->precision_count;
+	else if (flags->precision_count > raw_len)
 		raw_len = flags->precision_count;
+		//for   ft_printf("%#08x", 42); should print   2. (    8) -->0x00002a<--
+	
+	
 	if (raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
 		raw_len += 2;
-	//for   ft_printf("%#08x", 42); should print   2. (    8) -->0x00002a<--
 	if (flags->zero == TRUE && raw[j] != '0' && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
 	{
 		str[i++ + *count_out] = '0';
