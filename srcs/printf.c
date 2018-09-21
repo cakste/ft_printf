@@ -14,7 +14,7 @@
 #include "../includes/ft_printf.h"
 #include <stdio.h>
 
-
+/*
 int		cpy_width(int i, t_conv_flags *flags, size_t raw_len, char *str)
 {
 	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > raw_len) // && flags->precision_count < flags->width_count
@@ -27,10 +27,9 @@ int		cpy_width(int i, t_conv_flags *flags, size_t raw_len, char *str)
 	}
 	return (i);
 }
+*/
 
-int		cpy_precision();
-
-
+/*
 
 void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 {
@@ -40,13 +39,6 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	size_t 	j;
 
 	i = 0;
-
-	//check if any modifier
-/*	if (flags->modifier == TRUE)
-		raw = get_argument_hhmod(ap, flags);
-	else
-		raw = get_argument(ap, flags);
-		*/
 	j = 0;
 	raw = flags->arg_function(ap, flags);
 	if (!raw)
@@ -134,7 +126,7 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	}
 	*count_out += i;
 	free(raw);
-}
+}*/
 
 int	ft_sprintf(const char *format, va_list ap)
 {
@@ -180,7 +172,6 @@ int	ft_printf(char *format, ...)
 **	* maybe return void* from all the get arg functions
 **	* utf-8 wikipedia, grab int size for widechars. Then count how many bytes to print. wint_t
 **	* for input ft_printf("%2x", 542); it owerflows correctly when this is put in read_specs printf("%zu\n", flags->width_count - ft_strlen(raw));
-
 
 **	CONTINUE
 **	* bugs,  newline for this ft_printf("%2x", 542);

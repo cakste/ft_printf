@@ -64,10 +64,7 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 		flags->width = TRUE;
 		flags->width_count = atoi(&format[i]);
 		while (format[i] && format[i] >= '0' && format[i] <= '9')
-		{
-			//write(1, &format[i], 1);
 			i++;
-		}
 		//write(1, "|",1);
 	}
 	if (format[i] == '.')
@@ -116,7 +113,6 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 				flags->arg_function = &get_argument_caps;
 			i++;
 		}
-
 	/*else
 	{
 		ft_printf("Can't find format conversion '%c'. Check usage.\n", format[i]);

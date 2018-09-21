@@ -15,6 +15,7 @@
 #include <stdio.h>
 
 /*might need different itoa functions etc for all the modifiers?*/
+//changed to uintmax
 char *get_argument(va_list ap, t_conv_flags *flags)
 {
 	if (flags->conversion == 's')

@@ -60,11 +60,6 @@ wchar_t	*ft_strdup_wide(wchar_t *s1)
 	wchar_t	*dup;
     int     i;
 
-    /*if (s1 == NULL)
-    {
-        dup = ft_strdup_wide("(null)");
-        return (dup);
-    }    */
     dup = (wchar_t*)malloc(sizeof(wchar_t) * ft_strlen_wide((wchar_t*)s1) + 1);
 	if (!dup)
 		return (NULL);
