@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
-#include <stdarg.h>
-#include <stdio.h>
+#include <ft_printf.h>
 
 /*might need different itoa functions etc for all the modifiers?*/
 //changed to uintmax

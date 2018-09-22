@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/ft_printf.h"
+#include <ft_printf.h>
 
 void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 {

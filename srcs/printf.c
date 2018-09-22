@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdarg.h>
-#include "../includes/ft_printf.h"
+#include <ft_printf.h>
 #include <stdio.h>
 
 /*
@@ -130,17 +130,14 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 
 int	ft_sprintf(const char *format, va_list ap)
 {
-	int		printed;
 	char	*output;
 	int		count_out;
 
-	printed = 0;
 	count_out = 0;
 	output = (char*)malloc(sizeof(char) * __INT_MAX__ + 1);
 	if (!output)
 		return (0);
 	output = read_format(output, format, ap, &count_out);
-	//write(1, "TEST", 1);
 	write(1, output, count_out);
 	free(output);
 	return (count_out);

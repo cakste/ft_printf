@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
-#include <stdlib.h>
-#include "../includes/ft_printf.h"
+#include <ft_printf.h>
 
 char	*ft_str_of_char(int c)
 {
