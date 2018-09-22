@@ -133,6 +133,7 @@ int	ft_sprintf(const char *format, va_list ap)
 	char	*output;
 	int		count_out;
 
+	write(1, "HELLO2", 6);
 	count_out = 0;
 	output = (char*)malloc(sizeof(char) * __INT_MAX__ + 1);
 	if (!output)
