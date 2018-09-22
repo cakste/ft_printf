@@ -135,11 +135,11 @@ int	ft_sprintf(const char *format, va_list ap)
 	int		count_out;
 
 	printed = 0;
+	count_out = 0;
 	output = (char*)malloc(sizeof(char) * __INT_MAX__ + 1);
 	if (!output)
 		return (0);
 	output = read_format(output, format, ap, &count_out);
-	//printed = ft_strlen(output);
 	write(1, output, count_out);
 	free(output);
 	return (count_out);

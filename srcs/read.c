@@ -62,10 +62,10 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 			flags->zero = FALSE;
 		i++;
 	}
-	if (atoi(&format[i]) != 0)
+	if (ft_atoi(&format[i]) != 0)
 	{
 		flags->width = TRUE;
-		flags->width_count = atoi(&format[i]);
+		flags->width_count = ft_atoi(&format[i]);
 		while (format[i] && format[i] >= '0' && format[i] <= '9')
 			i++;
 		//write(1, "|",1);
@@ -74,7 +74,7 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 	{
 		i++;
 		flags->precision = TRUE;
-		flags->precision_count = atoi(&format[i]);
+		flags->precision_count = ft_atoi(&format[i]);
 		while (format[i] >= '0' && format[i] <= '9')
 			i++;
 	}

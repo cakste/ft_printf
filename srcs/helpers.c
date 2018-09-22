@@ -79,7 +79,7 @@ char	*ft_itoa_base(intmax_t num, char *base)
 	int		base_len;
 	int		stop;
 
-	base_len = strlen(base);
+	base_len = ft_strlen(base);
 	len = ft_num_len(num, base_len);
 	buff = (char*)malloc(sizeof(char) * len + 1);
 	buff[len] = '\0';
@@ -102,7 +102,7 @@ char	*ft_itoa_base_unsigned(uintmax_t num, char *base)
 	int		len;
 	int		base_len;
 
-	base_len = strlen(base);
+	base_len = ft_strlen(base);
 	len = ft_num_len_unsigned(num, base_len);
 	buff = (char*)malloc(sizeof(char) * len + 1);
 	buff[len] = '\0';
