@@ -148,6 +148,7 @@ int	ft_printf(const char *format, ...)
 	va_list	ap;
 	int		printed;
 
+	write(1, "HELLO", 5);
 	printed = 0;
 	va_start(ap, format);
 	printed = ft_sprintf(format, ap);
