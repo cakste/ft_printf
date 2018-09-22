@@ -45,10 +45,13 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 	//what happens with for example multiple spaces?
 	while (format[i] == '0' || format[i] == '#' || format[i] == '-' || format[i] == '+' || format[i] == ' ')
 	{
-		if (format[i] == '0')
+		if (format[i] == '0')// && flags->sharp == FALSE)
 			flags->zero = TRUE;
 		else if (format[i] == '#')
+		{
 			flags->sharp = TRUE;
+			//flags->zero = FALSE;
+		}
 		else if (format[i] == '-')
 			flags->minus = TRUE;
 		else if (format[i] == '+')

@@ -139,10 +139,10 @@ int	ft_sprintf(const char *format, va_list ap)
 	if (!output)
 		return (0);
 	output = read_format(output, format, ap, &count_out);
-	printed = ft_strlen(output);
+	//printed = ft_strlen(output);
 	write(1, output, count_out);
 	free(output);
-	return (printed);
+	return (count_out);
 }
 
 int	ft_printf(char *format, ...)
@@ -173,7 +173,7 @@ int	ft_printf(char *format, ...)
 **	* maybe return void* from all the get arg functions
 **	* utf-8 wikipedia, grab int size for widechars. Then count how many bytes to print. wint_t
 **	* for input ft_printf("%2x", 542); it owerflows correctly when this is put in read_specs printf("%zu\n", flags->width_count - ft_strlen(raw));
-
+**	* ft_printf("%.2c", NULL); sometims bugs out and prints 4 null chars
 **	CONTINUE
 **	* bugs,  newline for this ft_printf("%2x", 542);
 */
