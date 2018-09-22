@@ -28,19 +28,9 @@ void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 	{
 		*raw_len -= 1;
 		flags->width_count -= 1;
-		//*raw_len = *raw_len + flags->precision_count;
-		//flags->precision_count = flags->precision_count + *raw_len;
-
 	}
 	if ((flags->zero == TRUE || flags->precision_count > *raw_len) && flags->precision && flags->width_count > *raw_len)//flags->precision_count)
-	{
-		//write(1, "|", 1);
 		flags->zero = FALSE;
-		//flags->precision_count = (raw[0] == '-') ;
-
-		//printf("raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", *raw_len, flags->width_count, flags->precision_count);
-
-	}
 	if (flags->space == TRUE && !flags->plus && flags->width_count <= *raw_len && raw[0] != '-' && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
 	{
 		flags->width_count = *raw_len + 1;

@@ -27,7 +27,7 @@ t_conv_flags	*init_flag(void)
 	flags->width = FALSE;
 	flags->width_count = 0;
 	flags->precision = FALSE;
-	flags->precision_count = 0;
+	flags->precision_count = 0;	
 	flags->modifier = FALSE;
 	flags->arg_function = &get_argument;
 	flags->conversion = 0;
