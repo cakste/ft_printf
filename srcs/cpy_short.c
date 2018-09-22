@@ -22,7 +22,7 @@ void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 		*raw_len = 1;
 	if (flags->precision_count > flags->width_count)
 		flags->width_count = flags->precision_count;
-	if (flags->plus == TRUE && flags->width_count > 0)
+	if (flags->plus == TRUE && raw[0] != '-' && flags->width_count > 0)
 		flags->width_count -= 1;
 	if (flags->sharp && (flags->conversion == 'o' || flags->conversion == 'O'))// && *raw_len == 0)
 	{
@@ -37,7 +37,7 @@ void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 		*raw_len += 2;
 }
 
-size_t    cpy_0x(t_conv_flags *flags, char *str, char *raw)
+size_t    cpy_0x(t_conv_flags *flags, char *str, char *raw, size_t *raw_len)
 {
     if (ft_atoi(raw) != 0 && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
 	{
@@ -50,11 +50,12 @@ size_t    cpy_0x(t_conv_flags *flags, char *str, char *raw)
 			str[0] = '+';
 			return (1);
 	}
-	/*else if ((flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) < 0)
+	else if (raw[0] == '-' && (flags->zero == TRUE || flags->precision_count > *raw_len) &&(flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I'))
 	{
+		flags->precision_count += 1;
 		str[0] = '-';
 		return (1);
-	}*/
+	}
     return (0);
 }
 
@@ -118,10 +119,12 @@ size_t	cpy_precision(t_conv_flags *flags, char *str, size_t raw_len)
 	return (i);
 }
 
-size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw)//, size_t raw_len)
+size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw, size_t raw_len)
 {
 	size_t i;
+	size_t j;
 
+	j = 0;
 	i = 0;
 	//if ((flags->conversion == 'x' || flags->conversion == 'X') && flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0)
 	//	return (i);
@@ -133,16 +136,17 @@ size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw)//, size_t raw_len)
 	}
 	if (flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0 && flags->conversion != '%')
 		return (i);
-	/*else if ((flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) < 0)
+	if (raw[0] == '-' && (flags->zero == TRUE || flags->precision_count > raw_len) && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I'))
 	{
 		j++;
-	}*/
-	while (raw[i])
+	}
+	while (raw[j])
 	{
 		if (flags->conversion == 's' && flags->precision == TRUE && i >= flags->precision_count)
 			break ;
-		str[i] = raw[i];
+		str[i] = raw[j];
 		i++;
+		j++;
 	}
 	return (i);
 }
@@ -169,13 +173,13 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	raw_len = ft_strlen(raw);
     precision_handling(flags, &raw_len, raw);
     if (flags->zero == TRUE)
-        i += cpy_0x(flags, &str[i + *count_out], raw);
+        i += cpy_0x(flags, &str[i + *count_out], raw, &raw_len);
 	i += cpy_width(flags, &str[i + *count_out], raw_len);
 	//positive, negative as well.
 	if (flags->zero == FALSE)
-        i += cpy_0x(flags, &str[i + *count_out], raw);
+        i += cpy_0x(flags, &str[i + *count_out], raw, &raw_len);
 	i += cpy_precision(flags, &str[i + *count_out], raw_len);
-	i += cpy_raw(flags, &str[i + *count_out], raw);
+	i += cpy_raw(flags, &str[i + *count_out], raw, raw_len);
 	i += cpy_endwidth(flags, &str[i + *count_out], raw_len);
 	*count_out += i;
 	free(raw);
