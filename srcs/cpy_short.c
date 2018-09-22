@@ -167,7 +167,10 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	j = 0;
 	raw = flags->arg_function(ap, flags);
 	if (raw == NULL)
+	{
 		write(1, "ERROR", 5);
+		return ;
+	}
 	raw_len = ft_strlen(raw);
     precision_handling(flags, &raw_len, raw);
     if (flags->zero == TRUE)
