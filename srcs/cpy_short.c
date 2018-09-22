@@ -45,6 +45,16 @@ size_t    cpy_0x(t_conv_flags *flags, char *str, char *raw)
 		str[1] = flags->conversion;
         return (2);
 	}
+	else if (flags->plus == TRUE && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
+	{
+			str[0] = '+';
+			return (1);
+	}
+	/*else if ((flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) < 0)
+	{
+		str[0] = '-';
+		return (1);
+	}*/
     return (0);
 }
 
@@ -56,7 +66,7 @@ size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len)
 	i = 0;
 	taken = (raw_len > flags->precision_count) ? raw_len : flags->precision_count;
 	if ((flags->conversion == 's' || flags->conversion == 'S') && flags->precision && raw_len > flags->precision_count)
-		taken = flags->precision_count;
+		taken = flags->precision_count;		
 	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > taken)//flags->precision_count + raw_len) // && flags->precision_count < flags->width_count
 	{
 		//printf("raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
@@ -123,6 +133,10 @@ size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw)//, size_t raw_len)
 	}
 	if (flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0 && flags->conversion != '%')
 		return (i);
+	/*else if ((flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) < 0)
+	{
+		j++;
+	}*/
 	while (raw[i])
 	{
 		if (flags->conversion == 's' && flags->precision == TRUE && i >= flags->precision_count)
@@ -132,6 +146,13 @@ size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw)//, size_t raw_len)
 	}
 	return (i);
 }
+/*
+size_t	cpy_sign(t_conv_flags *flags, char *str, char *raw)
+{
+	if ()
+
+		
+}*/
 
 void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 {
@@ -150,8 +171,7 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
     if (flags->zero == TRUE)
         i += cpy_0x(flags, &str[i + *count_out], raw);
 	i += cpy_width(flags, &str[i + *count_out], raw_len);
-	if (flags->plus == TRUE && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
-		str[i++ + *count_out] = '+';
+	//positive, negative as well.
 	if (flags->zero == FALSE)
         i += cpy_0x(flags, &str[i + *count_out], raw);
 	i += cpy_precision(flags, &str[i + *count_out], raw_len);

@@ -67,7 +67,7 @@ wchar_t	*ft_strdup_wide(wchar_t *s1);
 size_t  ft_strlen_wide(wchar_t *s);
 int		ft_printf(char *format, ...);
 int		ft_sprintf(const char *format, va_list ap);
-char	*read_format(char *str, const char *format, va_list ap);
+char	*read_format(char *str, const char *format, va_list ap, int *count_out);
 int		read_conversion_spec(char *str, const char *format, int *count_out, va_list ap);
 void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap);
 int		ft_atoi(const char *str);
