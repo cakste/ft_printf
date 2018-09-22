@@ -30,7 +30,7 @@ char	*ft_str_of_char(int c)
 	new[1] = '\0';
 	return (new);
 }
-
+/*
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t			i;
@@ -39,7 +39,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
+}*/
 
 int		ft_num_len(intmax_t num, int base_len)
 {
@@ -130,7 +130,7 @@ char	*ft_memaddr(uintmax_t addr, char *base)
 	free(hex);
 	return (address);
 }
-
+/*
 int		ft_atoi(const char *str)
 {
 	int		i;
@@ -153,7 +153,7 @@ int		ft_atoi(const char *str)
 		i++;
 	}
 	return (sum * sign);
-}
+}*/
 
 /*
 int		ft_putnbr_base(unsigned long long num, char	*base)

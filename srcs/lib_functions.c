@@ -21,7 +21,7 @@ size_t  ft_strlen(const char *s)
         i++;
     return (i);
 }
-
+/*
 char	*ft_strdup(const char *s1)
 {
 	char	*dup;
@@ -44,7 +44,7 @@ char	*ft_strdup(const char *s1)
 	dup[i] = '\0';
 	return (dup);
 }
-
+*/
 size_t  ft_strlen_wide(wchar_t *s)
 {
     size_t  i;
@@ -72,7 +72,7 @@ wchar_t	*ft_strdup_wide(wchar_t *s1)
 	dup[i] = '\0';
 	return (dup);
 }
-
+/*
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len;
@@ -98,3 +98,4 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (new);
 }
 
+*/
