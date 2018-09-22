@@ -146,7 +146,7 @@ int	ft_sprintf(const char *format, va_list ap)
 	return (count_out);
 }
 
-int	ft_printf(char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	int		printed;
