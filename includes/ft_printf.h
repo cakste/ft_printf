@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF
-# define FT_PRINTF
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 # include <stdarg.h>
 # include <wchar.h>
 # include <inttypes.h>
@@ -60,7 +60,7 @@ char	*get_argument_j_mod(va_list ap, t_conv_flags *flags);
 char	*get_argument_t_mod(va_list ap, t_conv_flags *flags);
 char	*get_argument_z_mod(va_list ap, t_conv_flags *flags);
 char	*get_argument_caps(va_list ap, t_conv_flags *flags);
-char *get_argument_sharp(va_list ap, t_conv_flags *flags);
+char	*get_argument_sharp(va_list ap, t_conv_flags *flags);
 size_t  ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
