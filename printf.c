@@ -133,14 +133,10 @@ int	ft_sprintf(const char *format, va_list ap)
 	char	*output;
 	int		count_out;
 
-	write(1, "HELLO2", 6);
 	count_out = 0;
-	output = (char*)malloc(sizeof(char) * 1000);
+	output = (char*)malloc(sizeof(char) * 4000000);
 	if (!output)
-	{
-		write(1, "RET", 1);
 		return (0);
-	}
 	output = read_format(output, format, ap, &count_out);
 	write(1, output, count_out);
 	free(output);
@@ -152,7 +148,6 @@ int	ft_printf(const char *format, ...)
 	va_list	ap;
 	int		printed;
 
-	write(1, "HELLO", 5);
 	printed = 0;
 	va_start(ap, format);
 	printed = ft_sprintf(format, ap);
