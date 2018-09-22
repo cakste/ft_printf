@@ -140,6 +140,7 @@ int	ft_sprintf(const char *format, va_list ap)
 	if (!output)
 		return (0);
 	output = read_format(output, format, ap, &count_out);
+	write(1, "TEST", 1);
 	write(1, output, count_out);
 	free(output);
 	return (count_out);

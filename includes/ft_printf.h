@@ -25,6 +25,8 @@
 # define BASE_16_a "0123456789abcdef"
 # define BASE_16_A "0123456789ABCDEF"
 # define BASE_8 "01234567"
+# define INT(x) (x == 'd' || x == 'i')
+# define LONG(x) (x == 'D' || x == 'I')
 
 typedef unsigned char	t_bool;
 typedef struct			s_conv_flags
