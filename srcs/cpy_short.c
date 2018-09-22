@@ -48,7 +48,8 @@ size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len)
 
 	i = 0;
 	taken = (raw_len > flags->precision_count) ? raw_len : flags->precision_count;
-	//write(1, "|", 1);
+	if ((flags->conversion == 's' || flags->conversion == 'S') && flags->precision && raw_len > flags->precision_count)
+		taken = flags->precision_count;
 	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > taken)//flags->precision_count + raw_len) // && flags->precision_count < flags->width_count
 	{
 		//printf("raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
@@ -68,6 +69,8 @@ size_t cpy_endwidth(t_conv_flags *flags, char *str, size_t raw_len)
 
 	i = 0;
 	taken = (raw_len > flags->precision_count) ? raw_len : flags->precision_count;
+	if ((flags->conversion == 's' || flags->conversion == 'S') && flags->precision && raw_len > flags->precision_count)
+		taken = flags->precision_count;
 	if (flags->minus == TRUE)
 	{
 		//printf("raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
@@ -102,8 +105,16 @@ size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw)//, size_t raw_len)
 	size_t i;
 
 	i = 0;
-	if ((flags->conversion == 'x' || flags->conversion == 'X') && flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0)
-		return (i); 
+	//if ((flags->conversion == 'x' || flags->conversion == 'X') && flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0)
+	//	return (i);
+	//write(1, "|", 1);
+	if (raw[i] == '\0' && (flags->conversion == 'c' || flags->conversion == 'C'))
+	{
+		str[i] = raw[i];
+		return (i + 1);
+	}
+	if (flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0 && flags->conversion != '%')
+		return (i);
 	while (raw[i])
 	{
 		if (flags->conversion == 's' && flags->precision == TRUE && i >= flags->precision_count)
@@ -124,6 +135,8 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 	i = 0;
 	j = 0;
 	raw = flags->arg_function(ap, flags);
+	if (raw == NULL)
+		write(1, "ERROR", 5);
 	raw_len = ft_strlen(raw);
     precision_handling(flags, &raw_len, raw);
     if (flags->zero == TRUE)

@@ -130,16 +130,17 @@ void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
 
 int	ft_sprintf(const char *format, va_list ap)
 {
-	int printed;
-	char *output;
+	int		printed;
+	char	*output;
+	int		count_out;
 
 	printed = 0;
 	output = (char*)malloc(sizeof(char) * __INT_MAX__ + 1);
 	if (!output)
 		return (0);
-	output = read_format(output, format, ap);
+	output = read_format(output, format, ap, &count_out);
 	printed = ft_strlen(output);
-	write(1, output, printed);
+	write(1, output, count_out);
 	free(output);
 	return (printed);
 }

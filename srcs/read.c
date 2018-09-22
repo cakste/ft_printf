@@ -135,13 +135,10 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 	return (i + 1);
 }
 
-char	*read_format(char *str, const char *format, va_list ap)
+char	*read_format(char *str, const char *format, va_list ap, int *count_out)
 {
-	int *count_out;
 	int	count_in;
 
-	count_out = (int*)malloc(sizeof(int));
-	*count_out = 0;
 	count_in = 0;
 	while (format[count_in] != '\0')
 	{
@@ -157,6 +154,5 @@ char	*read_format(char *str, const char *format, va_list ap)
 		}
 	}
 	str[*count_out] = '\0';
-	free(count_out);
 	return (str);
 }

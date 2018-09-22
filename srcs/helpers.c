@@ -17,7 +17,12 @@
 char	*ft_str_of_char(int c)
 {
 	char *new;
-
+	if (c == '\0')
+	{
+		new = (char*)malloc(sizeof(char) * 1);
+		new[1] = '\0';
+		return (new);
+	}
 	new = (char*)malloc(sizeof(char) * 2);
 	if (!new)
 		return (NULL);
