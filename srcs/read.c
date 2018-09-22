@@ -112,7 +112,7 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 		|| format[i]== 'U' || format[i]== 'X' || format[i]== '%')
 		{
 			flags->conversion = format[i];
-			if (flags->modifier == FALSE)
+			if (flags->modifier == FALSE || (flags->arg_function == get_argument_h_mod && format[i] == 'U'))
 				flags->arg_function = &get_argument_caps;
 			i++;
 		}

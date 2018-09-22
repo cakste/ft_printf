@@ -24,15 +24,16 @@ void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 		flags->width_count = flags->precision_count;
 	if (flags->plus == TRUE && raw[0] != '-' && flags->width_count > 0)
 		flags->width_count -= 1;
+	if (flags->space == TRUE && !flags->plus && flags->width_count <= *raw_len && raw[0] != '-' && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
+	{
+		flags->width_count = *raw_len + 1;
+		flags->width = TRUE;
+	}
 	if (flags->sharp && (flags->conversion == 'o' || flags->conversion == 'O'))// && *raw_len == 0)
 	{
 		flags->precision = TRUE;
 		flags->precision_count = *raw_len + 1;
 	}
-	//else if (flags->conversion == 's' && flags->precision && flags->precision_count < *raw_len)
-	//	*raw_len -= flags->precision_count;
-	//else if (flags->precision_count > *raw_len)
-	//	*raw_len = flags->precision_count;
     if (flags->sharp == TRUE && (flags->conversion == 'x' || flags->conversion == 'X') && ft_atoi(raw) != 0 )//&& flags->zero == FALSE)
 		*raw_len += 2;
 }
@@ -126,20 +127,22 @@ size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw, size_t raw_len)
 
 	j = 0;
 	i = 0;
-	//if ((flags->conversion == 'x' || flags->conversion == 'X') && flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0)
-	//	return (i);
-	//write(1, "|", 1);
 	if (raw[i] == '\0' && (flags->conversion == 'c' || flags->conversion == 'C'))
 	{
 		str[i] = raw[i];
 		return (i + 1);
 	}
 	if (flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0 && flags->conversion != '%')
+	{
+		//write(1, "HERE", 4);
 		return (i);
+	}
 	if (raw[0] == '-' && (flags->zero == TRUE || flags->precision_count > raw_len) && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I'))
 	{
 		j++;
 	}
+	if (flags->precision && (flags->conversion == 'o' || flags->conversion == 'O') && ft_atoi(raw) == 0)
+		return (i);
 	while (raw[j])
 	{
 		if (flags->conversion == 's' && flags->precision == TRUE && i >= flags->precision_count)
