@@ -135,7 +135,7 @@ int	ft_sprintf(const char *format, va_list ap)
 
 	write(1, "HELLO2", 6);
 	count_out = 0;
-	output = (char*)malloc(sizeof(char) * 2147483647);
+	output = (char*)malloc(sizeof(char) * 1000);
 	if (!output)
 	{
 		write(1, "RET", 1);
