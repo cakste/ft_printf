@@ -10,12 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_printf.a
+NAME = libftprintf.a
 
 SRC = 	srcs/printf.c srcs/get_arg.c srcs/helpers.c srcs/lib_functions.c srcs/read.c srcs/cpy_short.c
 
 OBJ = 	printf.o get_arg.o helpers.o lib_functions.o read.o cpy_short.o
-
 
 INC = includes/
 FLAGS = -Wall -Wextra -Werror
@@ -24,13 +23,13 @@ all: $(NAME)
 
 $(NAME):
 	@gcc -c $(FLAGS) -I $(INC) $(SRC)
-	@ar rc $(NAME) $(OBJ) 
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
 
 clean:
 	@/bin/rm -f $(OBJ)
 
 fclean: clean
-	@/bin/rm -f libft/libft.a
 	@/bin/rm -f $(NAME)
 
 re: fclean all
