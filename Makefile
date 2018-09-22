@@ -6,7 +6,7 @@
 #    By: acakste <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/18 16:32:24 by acakste           #+#    #+#              #
-#    Updated: 2018/09/22 11:47:30 by acakste          ###   ########.fr        #
+#    Updated: 2018/09/22 11:53:33 by acakste          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,7 @@ clean:
 	@/bin/rm -f $(OBJ)
 
 fclean: clean
+	@/bin/rm -f libft/libft.a
 	@/bin/rm -f $(NAME)
 
 re: fclean all
-
-run: re
-	@/bin/rm -f a.out
-	@gcc main/main.c libftprintf.a
