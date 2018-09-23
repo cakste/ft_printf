@@ -11,8 +11,28 @@
 # **************************************************************************** #
 
 NAME = libftprintf.a
-SRC = printf.c get_arg.c helpers.c lib_functions.c read.c cpy_short.c
-OBJ = 	printf.o get_arg.o helpers.o lib_functions.o read.o cpy_short.o
+
+SRC = printf.c\
+	  get_arg.c\
+	  get_arg_2.c\
+	  helpers.c\
+	  helpers_2.c\
+	  lib_functions.c\
+	  read.c\
+	  cpy.c\
+	  cpy_2.c\
+
+OBJ = printf.o\
+	  get_arg.o\
+	  get_arg_2.o\
+	  helpers.o\
+	  helpers_2.o\
+	  lib_functions.o\
+	  read.o\
+	  cpy.o\
+	  cpy_2.o\
+
+
 INC = includes/
 FLAGS = -Wall -Wextra -Werror
 
