@@ -14,6 +14,8 @@
 
 void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 {
+	//printf("Precision HANDLINg raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", *raw_len, flags->width_count, flags->precision_count);
+
     if (flags->precision == TRUE && flags->precision_count == 0 && ft_atoi(raw) == 0) //&& (flags->conversion == 'x' || flags->conversion == 'X')
 		*raw_len = 0;
 	if (flags->precision == TRUE && *raw_len == 0 && (flags->conversion == 's' || flags->conversion == 'c' || flags->conversion == 'S' || flags->conversion == 'C'))
@@ -31,9 +33,12 @@ void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
 	}
 	if ((flags->zero == TRUE || flags->precision_count > *raw_len) && flags->precision && flags->width_count > *raw_len)//flags->precision_count)
 		flags->zero = FALSE;
-	if (flags->space == TRUE && !flags->plus && flags->width_count <= *raw_len && raw[0] != '-' && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
+	if (flags->space == TRUE && !flags->plus && (flags->width_count <= *raw_len || flags->width_count <= flags->precision_count) && raw[0] != '-' && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
 	{
-		flags->width_count = *raw_len + 1;
+		//flags->width_count = *raw_len + 1;
+		//write(1, "HERE", 4);
+		flags->width_count = (*raw_len > flags->precision_count) ? *raw_len + 1 : flags->precision_count + 1;
+		//printf("Width now: %zu\n", flags->width_count);
 		flags->width = TRUE;
 	}
 	if (flags->sharp && (flags->conversion == 'o' || flags->conversion == 'O'))// && *raw_len == 0)
@@ -72,13 +77,14 @@ size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len)
 	size_t	i;
 	size_t	taken;
 
+	//printf("CPY WIDTH raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
+
 	i = 0;
 	taken = (raw_len > flags->precision_count) ? raw_len : flags->precision_count;
 	if ((flags->conversion == 's' || flags->conversion == 'S') && flags->precision && raw_len > flags->precision_count)
 		taken = flags->precision_count;		
 	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > taken)//flags->precision_count + raw_len) // && flags->precision_count < flags->width_count
 	{
-		//printf("CPY WIDTH raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
 		while (i + taken < (flags->width_count))
 		{
 			str[i] = (flags->zero == TRUE) ? '0' : ' ';

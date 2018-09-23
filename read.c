@@ -127,11 +127,10 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 	printf("plus: %d\n", flags->plus);
 	printf("space: %d\n", flags->space);
 	printf("width: %d\n", flags->width);
-	printf("width_count: %d\n", flags->width_count);
+	printf("width_count: %zu\n", flags->width_count);
 	printf("precision: %d\n", flags->precision);
-	printf("precision_count: %d\n", flags->precision_count);
+	printf("precision_count: %zu\n", flags->precision_count);
 	printf("modifier: %d\n", flags->modifier);
-	printf("modifier_char: %c\n", flags->modifier_char);
 	printf("conversion: %c\n", flags->conversion);*/
 	strcpy_wflags(str, count_out, flags, ap);
 	free(flags);
