@@ -42,7 +42,7 @@ int	ft_sprintf(const char *format, va_list ap)
 	int		count_out;
 
 	count_out = 0;
-	output = (char*)malloc(sizeof(char) * 4096);
+	output = (char*)malloc(sizeof(char) * 12000);
 	if (!output)
 		return (0);
 	output = read_format(output, format, ap, &count_out);
