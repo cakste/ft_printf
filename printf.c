@@ -48,7 +48,6 @@ int	ft_sprintf(const char *format, va_list ap)
 	output = read_format(output, format, ap, &count_out);
 	write(1, output, count_out);
 	free(output);
-	write(1, "|", 1);
 	return (count_out);
 }
 
