@@ -28,6 +28,10 @@ char *get_argument(va_list ap, t_conv_flags *flags)
 		return (ft_itoa_base_unsigned((unsigned int)va_arg(ap, unsigned int), BASE_10));
 	else if (flags->conversion == 'x')
 		return (ft_itoa_base_unsigned((unsigned int)va_arg(ap, unsigned int), BASE_16_a));
+	else if (flags->conversion == 'b')
+		return (ft_itoa_base_unsigned((unsigned int)va_arg(ap, unsigned int), BASE_2));
+	else if (flags->conversion == 'n')
+		return ((void*)va_arg(ap, void*));
 	else if (flags->conversion == '%')
 		return (ft_strdup("%"));
 	else

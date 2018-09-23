@@ -74,7 +74,7 @@ size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw, size_t raw_len)
 
 	j = 0;
 	i = 0;
-	if (raw[i] == '\0' && (flags->conversion == 'c' || flags->conversion == 'C'))
+	if (raw[j] == '\0' && (flags->conversion == 'c' || flags->conversion == 'C'))
 	{
 		str[i] = raw[j];
 		return (i + 1);

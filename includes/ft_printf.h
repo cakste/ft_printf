@@ -26,6 +26,7 @@
 # define BASE_16_a "0123456789abcdef"
 # define BASE_16_A "0123456789ABCDEF"
 # define BASE_8 "01234567"
+# define BASE_2 "01"
 # define INT(x) (x == 'd' || x == 'i')
 # define LONG(x) (x == 'D' || x == 'I')
 
@@ -73,5 +74,14 @@ char	*read_format(char *str, const char *format, va_list ap, int *count_out);
 int		read_conversion_spec(char *str, const char *format, int *count_out, va_list ap);
 void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap);
 int		ft_atoi(const char *str);
+void	*ft_increase_mem(void *ptr, size_t curr_size);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+size_t 	cpy_endwidth(t_conv_flags *flags, char *str, size_t raw_len);
+size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len);
+size_t	cpy_0x(t_conv_flags *flags, char *str, char *raw, size_t *raw_len);
+size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw, size_t raw_len);
+size_t	cpy_precision(t_conv_flags *flags, char *str, size_t raw_len);
+void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw);
+void	precision_handling2(t_conv_flags *flags, size_t *raw_len, char *raw);
 
 #endif

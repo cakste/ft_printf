@@ -42,12 +42,13 @@ int	ft_sprintf(const char *format, va_list ap)
 	int		count_out;
 
 	count_out = 0;
-	output = (char*)malloc(sizeof(char) * 4000000);
+	output = (char*)malloc(sizeof(char) * 4096);
 	if (!output)
 		return (0);
 	output = read_format(output, format, ap, &count_out);
 	write(1, output, count_out);
 	free(output);
+	write(1, "|", 1);
 	return (count_out);
 }
 
