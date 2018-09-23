@@ -45,28 +45,21 @@ char	*ft_strdup(const char *s1)
 	return (dup);
 }
 
-size_t  ft_strlen_wide(wchar_t *s)
+char	*ft_strdup_wide(wchar_t *s1)
 {
-    size_t  i;
-
-    i = 0;
-    while (s[i])
-        i++;
-    return (i);
-}
-
-wchar_t	*ft_strdup_wide(wchar_t *s1)
-{
-	wchar_t	*dup;
+	char	*dup;
     int     i;
 
-    dup = (wchar_t*)malloc(sizeof(wchar_t) * ft_strlen_wide((wchar_t*)s1) + 1);
+	i = 0;
+	while (s1[i] != '\0')
+		i++;
+    dup = (char*)malloc(sizeof(char) * i + 1);
 	if (!dup)
 		return (NULL);
 	i = 0;
 	while (s1[i] != '\0')
 	{
-		dup[i] = s1[i];
+		dup[i] = (char)s1[i];
 		i++;
 	}
 	dup[i] = '\0';

@@ -64,7 +64,7 @@ char *get_argument_sharp(va_list ap, t_conv_flags *flags)
 char	*get_argument_caps(va_list ap, t_conv_flags *flags)
 {
 	if (flags->conversion == 'S')
-		return ((char*)ft_strdup(va_arg(ap, char*)));
+		return (ft_strdup_wide(va_arg(ap, wchar_t*)));
 	else if (flags->conversion == 'C')
 		return (ft_str_of_char(va_arg(ap, int)));
 	else if (flags->conversion == 'D' || flags->conversion == 'I')
@@ -118,11 +118,11 @@ char *get_argument_h_mod(va_list ap, t_conv_flags *flags)
 char *get_argument_l_mod(va_list ap, t_conv_flags *flags)
 {
 	if (flags->conversion == 's')
-		return ((char*)ft_strdup_wide(va_arg(ap, wchar_t*)));
+		return (ft_strdup_wide(va_arg(ap, wchar_t*)));
 	else if (flags->conversion == 'c')
 		return (ft_str_of_char(va_arg(ap, wint_t)));
 	else if (flags->conversion == 'd' || flags->conversion== 'i')
-		return (ft_itoa_base_unsigned(va_arg(ap, unsigned long), BASE_10));
+		return (ft_itoa_base(va_arg(ap, long), BASE_10));
 	else if (flags->conversion == 'o')
 		return (ft_itoa_base_unsigned(va_arg(ap, unsigned long), BASE_8));
 	else if (flags->conversion == 'u')
@@ -160,9 +160,7 @@ char *get_argument_j_mod(va_list ap, t_conv_flags *flags)
 	else if (flags->conversion == 'u')
 		return (ft_itoa_base_unsigned(va_arg(ap, uintmax_t), BASE_10));
 	else if (flags->conversion == 'x' || flags->conversion == 'X')
-	{
 		return (ft_itoa_base_unsigned((uintmax_t)va_arg(ap, uintmax_t), BASE_16_a));
-	}
 	else if (flags->conversion == '%')
 		return (ft_strdup("%"));
 	else

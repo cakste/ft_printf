@@ -65,7 +65,7 @@ char	*get_argument_sharp(va_list ap, t_conv_flags *flags);
 size_t  ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s1);
-wchar_t	*ft_strdup_wide(wchar_t *s1);
+char	*ft_strdup_wide(wchar_t *s1);
 size_t  ft_strlen_wide(wchar_t *s);
 int		ft_printf(const char *format, ...);
 int		ft_sprintf(const char *format, va_list ap);
