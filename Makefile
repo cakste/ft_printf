@@ -21,7 +21,6 @@ SRC = printf.c\
 	  read.c\
 	  cpy.c\
 	  cpy_2.c\
-	  realloc.c\
 
 OBJ = printf.o\
 	  get_arg.o\
@@ -32,7 +31,6 @@ OBJ = printf.o\
 	  read.o\
 	  cpy.o\
 	  cpy_2.o\
-	  realloc.o\
 
 INC = includes/
 FLAGS = -Wall -Wextra -Werror
