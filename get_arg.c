@@ -64,7 +64,7 @@ char *get_argument_sharp(va_list ap, t_conv_flags *flags)
 char	*get_argument_caps(va_list ap, t_conv_flags *flags)
 {
 	if (flags->conversion == 'S')
-		return ((char*)ft_strdup_wide((wchar_t*)va_arg(ap, int*)));
+		return ((char*)ft_strdup(va_arg(ap, char*)));
 	else if (flags->conversion == 'C')
 		return (ft_str_of_char(va_arg(ap, int)));
 	else if (flags->conversion == 'D' || flags->conversion == 'I')
