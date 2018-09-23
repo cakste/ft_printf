@@ -138,7 +138,7 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 {
 	t_conv_flags	*flags;
 	int				i;
-	int				*n_out;
+	//int				*n_out;
 
 	i = 0;
 	flags = init_flag();
@@ -146,12 +146,12 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 	i += read_width_precision(&format[i], flags);
 	i += read_modifier(&format[i], flags);
 	i += read_conv_char(&format[i], flags);
-	if (flags->conversion == 'n')
+	/*if (flags->conversion == 'n')
 	{
 		n_out = (int*)get_argument(ap, flags);
 		*n_out = *count_out;
-	}
-	else
+	}*/
+	//else
 		strcpy_wflags(str, count_out, flags, ap);
 	free(flags);
 	return (i + 1);
