@@ -68,7 +68,7 @@ char	*get_argument_caps(va_list ap, t_conv_flags *flags)
 	else if (flags->conversion == 'C')
 		return (ft_str_of_char(va_arg(ap, int)));
 	else if (flags->conversion == 'D' || flags->conversion == 'I')
-		return (ft_itoa_base((int)va_arg(ap, long), BASE_10));
+		return (ft_itoa_base_unsigned(va_arg(ap, unsigned long), BASE_10));
 	else if (flags->conversion == 'O')
 		return (ft_itoa_base_unsigned(va_arg(ap, unsigned long), BASE_8));
 	else if (flags->conversion == 'U')
@@ -122,7 +122,7 @@ char *get_argument_l_mod(va_list ap, t_conv_flags *flags)
 	else if (flags->conversion == 'c')
 		return (ft_str_of_char(va_arg(ap, wint_t)));
 	else if (flags->conversion == 'd' || flags->conversion== 'i')
-		return (ft_itoa_base((long)va_arg(ap, long), BASE_10));
+		return (ft_itoa_base_unsigned(va_arg(ap, unsigned long), BASE_10));
 	else if (flags->conversion == 'o')
 		return (ft_itoa_base_unsigned(va_arg(ap, unsigned long), BASE_8));
 	else if (flags->conversion == 'u')
