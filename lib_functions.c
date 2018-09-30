@@ -12,14 +12,14 @@
 
 #include <ft_printf.h>
 
-size_t  ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-    size_t  i;
+	size_t	i;
 
-    i = 0;
-    while (s[i])
-        i++;
-    return (i);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
 int		ft_atoi(const char *str)
@@ -49,14 +49,14 @@ int		ft_atoi(const char *str)
 char	*ft_strdup(const char *s1)
 {
 	char	*dup;
-    int     i;
+	int		i;
 
-    if (s1 == NULL)
-    {
-        dup = ft_strdup("(null)");
-        return (dup);
-    }    
-    dup = (char*)malloc(sizeof(char) * ft_strlen((char*)s1) + 1);
+	if (s1 == NULL)
+	{
+		dup = ft_strdup("(null)");
+		return (dup);
+	}
+	dup = (char*)malloc(sizeof(char) * ft_strlen((char*)s1) + 1);
 	if (!dup)
 		return (NULL);
 	i = 0;
@@ -69,7 +69,7 @@ char	*ft_strdup(const char *s1)
 	return (dup);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int		ft_strcmp(const char *s1, const char *s2)
 {
 	size_t			i;
 

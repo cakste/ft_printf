@@ -42,7 +42,6 @@ int		ft_num_len_unsigned(uintmax_t num, int base_len)
 	return (bytes);
 }
 
-
 char	*ft_itoa_base(intmax_t num, char *base)
 {
 	char	*buff;
@@ -60,7 +59,8 @@ char	*ft_itoa_base(intmax_t num, char *base)
 	stop = (num < 0) ? 1 : 0;
 	while (len >= stop)
 	{
-		buff[len] = (num < 0) ? base[(num % base_len) * -1]: base[num % base_len];
+		buff[len] = (num < 0) ? base[(num % base_len) * -1]
+								: base[num % base_len];
 		num /= base_len;
 		len--;
 	}

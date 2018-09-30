@@ -25,21 +25,21 @@ t_conv_flags	*init_flag(void)
 	flags->space = FALSE;
 	flags->zero = FALSE;
 	flags->width = FALSE;
-	flags->width_count = 0;
+	flags->width_num = 0;
 	flags->precision = FALSE;
-	flags->precision_count = 0;	
+	flags->prec_num = 0;
 	flags->modifier = FALSE;
 	flags->arg_function = &get_argument;
-	flags->conversion = 0;
+	flags->conv = 0;
 	return (flags);
 }
 
-int	read_flags(const char *format, t_conv_flags *flags)
+int				read_flags(const char *format, t_conv_flags *flags)
 {
 	int i;
 
 	i = 0;
-	while (format[i] == '0' || format[i] == '#' || format[i] == '-' || format[i] == '+' || format[i] == ' ')
+	while (FLAGS(format[i]))
 	{
 		if (format[i] == '0')
 			flags->zero = TRUE;
@@ -58,7 +58,7 @@ int	read_flags(const char *format, t_conv_flags *flags)
 	return (i);
 }
 
-int	read_width_precision(const char *format, t_conv_flags *flags)
+int				read_width_precision(const char *format, t_conv_flags *flags)
 {
 	int i;
 
@@ -66,7 +66,7 @@ int	read_width_precision(const char *format, t_conv_flags *flags)
 	if (ft_atoi(&format[i]) != 0)
 	{
 		flags->width = TRUE;
-		flags->width_count = ft_atoi(&format[i]);
+		flags->width_num = ft_atoi(&format[i]);
 		while (format[i] && format[i] >= '0' && format[i] <= '9')
 			i++;
 	}
@@ -74,67 +74,41 @@ int	read_width_precision(const char *format, t_conv_flags *flags)
 	{
 		i++;
 		flags->precision = TRUE;
-		flags->precision_count = ft_atoi(&format[i]);
+		flags->prec_num = ft_atoi(&format[i]);
 		while (format[i] >= '0' && format[i] <= '9')
 			i++;
 	}
 	return (i);
 }
 
-int	read_modifier(const char *format, t_conv_flags *flags)
+int				read_conv_char(const char *format, t_conv_flags *flags)
 {
 	int i;
 
 	i = 0;
-	if (format[i] == 'h' || format[i] == 'l' || format[i] == 'j' || format[i] == 'z')
+	if ((format[i] == 's' || format[i] == 'c' || format[i] == 'd' ||
+		format[i] == 'i' || format[i] == 'p' || format[i] == 'o' ||
+		format[i] == 'u' || format[i] == 'x') || format[i] == 'b' ||
+		format[i] == 'n')
 	{
-		flags->modifier = TRUE;
-		if (format[i] == 'h')
-			flags->arg_function = &get_argument_h_mod;
-		else if (format[i] == 'l')
-			flags->arg_function = &get_argument_l_mod;
-		else if (format[i] == 'j')
-			flags->arg_function = &get_argument_j_mod;
-		else if (format[i] == 'z')
-			flags->arg_function = &get_argument_z_mod;
+		flags->conv = format[i];
 		i++;
 	}
-	if (format[i] == 'h' && flags->arg_function == get_argument_h_mod)
+	else if (format[i] == 'S' || format[i] == 'C' || format[i] == 'D' ||
+			format[i] == 'I' || format[i] == 'O' || format[i] == 'U' ||
+			format[i] == 'X' || format[i] == '%')
 	{
-		flags->arg_function = &get_argument_hh_mod;
-		i++;
-	}
-	if (format[i] == 'l' && flags->arg_function == get_argument_l_mod)
-	{
-		flags->arg_function = &get_argument_ll_mod;
-		i++;
-	}
-	return (i);
-}
-
-int	read_conv_char(const char *format, t_conv_flags *flags)
-{
-	int i;
-
-	i = 0;
-	if (format[i] == 's' || format[i]== 'c' || format[i]== 'd' || format[i]== 'i' || format[i]== 'p'
-		|| format[i]== 'o' || format[i]== 'u' || format[i]== 'x' || format[i] == 'b' || format[i] == 'n')
-	{
-		flags->conversion = format[i];
-		i++;
-	}
-	else if (format[i] == 'S' || format[i] == 'C' || format[i] == 'D' || format[i] == 'I' || format[i] == 'O'
-		|| format[i] == 'U' || format[i]== 'X' || format[i] == '%')
-	{
-		flags->conversion = format[i];
-		if (flags->modifier == FALSE || (flags->arg_function == get_argument_h_mod && format[i] == 'U'))
+		flags->conv = format[i];
+		if (!flags->modifier || (flags->arg_function == get_argument_h_mod
+								&& format[i] == 'U'))
 			flags->arg_function = &get_argument_caps;
 		i++;
 	}
 	return (i);
 }
 
-int	read_conversion_spec(char *str, const char *format, int *count_out, va_list ap)
+int				read_conversion_spec(char *str, const char *format,
+							int *count_out, va_list ap)
 {
 	t_conv_flags	*flags;
 	int				i;
@@ -146,7 +120,7 @@ int	read_conversion_spec(char *str, const char *format, int *count_out, va_list 
 	i += read_width_precision(&format[i], flags);
 	i += read_modifier(&format[i], flags);
 	i += read_conv_char(&format[i], flags);
-	if (flags->conversion == 'n')
+	if (flags->conv == 'n')
 	{
 		n_out = (int*)get_argument(ap, flags);
 		if (n_out)

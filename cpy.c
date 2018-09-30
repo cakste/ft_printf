@@ -6,59 +6,64 @@
 /*   By: acakste <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 17:11:21 by acakste           #+#    #+#             */
-/*   Updated: 2018/09/20 17:11:22 by acakste          ###   ########.fr       */
+/*   Updated: 2018/09/25 18:09:37 by acakste          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_printf.h>
 
-void	precision_handling2(t_conv_flags *flags, size_t *raw_len, char *raw)
+void	precision_handling2(t_conv_flags *f, size_t *raw_len, char *raw)
 {
-	if ((flags->zero == TRUE || flags->precision_count > *raw_len) && flags->precision && flags->width_count > *raw_len)
-		flags->zero = FALSE;
-	if (flags->space == TRUE && !flags->plus && (flags->width_count <= *raw_len || flags->width_count <= flags->precision_count) && raw[0] != '-' && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
+	if ((f->zero == TRUE || f->prec_num > *raw_len) &&
+		f->precision && f->width_num > *raw_len)
+		f->zero = FALSE;
+	if (f->space == TRUE && !f->plus && (f->width_num <= *raw_len
+		|| f->width_num <= f->prec_num) && raw[0] != '-' &&
+		(INT(f->conv) || LONG(f->conv)) && ft_atoi(raw) >= 0)
 	{
-		flags->width_count = (*raw_len > flags->precision_count) ? *raw_len + 1 : flags->precision_count + 1;
-		flags->width = TRUE;
+		f->width_num = (*raw_len > f->prec_num) ?
+								*raw_len + 1 : f->prec_num + 1;
+		f->width = TRUE;
 	}
-	if (flags->sharp && (flags->conversion == 'o' || flags->conversion == 'O'))
+	if (f->sharp && (f->conv == 'o' || f->conv == 'O'))
 	{
-		flags->precision = TRUE;
-		flags->precision_count = *raw_len + 1;
+		f->precision = TRUE;
+		f->prec_num = *raw_len + 1;
 	}
-    if (flags->sharp == TRUE && (flags->conversion == 'x' || flags->conversion == 'X') && ft_atoi(raw) != 0 )
+	if (f->sharp == TRUE && (f->conv == 'x' ||
+		f->conv == 'X') && ft_atoi(raw) != 0)
 		*raw_len += 2;
 }
 
-void    precision_handling(t_conv_flags *flags, size_t *raw_len, char *raw)
+void	precision_handling(t_conv_flags *f, size_t *raw_len, char *raw)
 {
-    if (flags->precision == TRUE && flags->precision_count == 0 && ft_atoi(raw) == 0)
+	if (f->precision == TRUE && f->prec_num == 0 && ft_atoi(raw) == 0)
 		*raw_len = 0;
-	if (flags->precision == TRUE && *raw_len == 0 && (flags->conversion == 's' || flags->conversion == 'c' || flags->conversion == 'S' || flags->conversion == 'C'))
-		flags->precision_count = 0;
-	if (raw[0] == '\0' && (flags->conversion == 'c' || flags->conversion == 'C'))
+	if (f->precision == TRUE && *raw_len == 0 &&
+		(STR(f->conv) || CHR(f->conv)))
+		f->prec_num = 0;
+	if (raw[0] == '\0' && (f->conv == 'c' || f->conv == 'C'))
 		*raw_len = 1;
-	if (flags->precision_count > flags->width_count)
-		flags->width_count = flags->precision_count;
-	if (flags->plus == TRUE && raw[0] != '-' && flags->width_count > 0)
-		flags->width_count -= 1;
-	if (flags->precision && flags->precision_count >= *raw_len && raw[0] == '-')
+	if (f->prec_num > f->width_num)
+		f->width_num = f->prec_num;
+	if (f->plus == TRUE && raw[0] != '-' && f->width_num > 0)
+		f->width_num -= 1;
+	if (f->precision && f->prec_num >= *raw_len && raw[0] == '-')
 	{
 		*raw_len -= 1;
-		flags->width_count -= 1;
+		f->width_num -= 1;
 	}
-	precision_handling2(flags, raw_len, raw);
+	precision_handling2(f, raw_len, raw);
 }
 
-size_t	cpy_precision(t_conv_flags *flags, char *str, size_t raw_len)
+size_t	cpy_precision(t_conv_flags *f, char *str, size_t raw_len)
 {
 	size_t	i;
 
 	i = 0;
-	//printf("Precision raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
-	if (flags->precision == TRUE && flags->precision_count > raw_len)
+	if (f->precision == TRUE && f->prec_num > raw_len)
 	{
-		while (i < flags->precision_count - raw_len)
+		while (i < f->prec_num - raw_len)
 		{
 			str[i] = '0';
 			i++;
@@ -67,57 +72,57 @@ size_t	cpy_precision(t_conv_flags *flags, char *str, size_t raw_len)
 	return (i);
 }
 
-size_t	cpy_raw(t_conv_flags *flags, char *str, char *raw, size_t raw_len)
+size_t	cpy_raw(t_conv_flags *f, char *str, char *raw, size_t raw_len)
 {
 	size_t i;
 	size_t j;
 
 	j = 0;
 	i = 0;
-	if (raw[j] == '\0' && (flags->conversion == 'c' || flags->conversion == 'C'))
+	if (raw[j] == '\0' && (f->conv == 'c' || f->conv == 'C'))
 	{
 		str[i] = raw[j];
 		return (i + 1);
 	}
-	if (flags->precision && flags->precision_count == 0 && ft_atoi(raw) == 0 && flags->conversion != '%')
-			return (i);
-	if (raw[0] == '-' && (flags->zero == TRUE || flags->precision_count > raw_len) && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I'))
+	if (f->precision && f->prec_num == 0 && ft_atoi(raw) == 0 && f->conv != '%')
+		return (i);
+	if (raw[0] == '-' && (f->zero || f->prec_num > raw_len) &&
+			(INT(f->conv) || LONG(f->conv)))
 		j++;
-	if (flags->precision && (flags->conversion == 'o' || flags->conversion == 'O') && ft_atoi(raw) == 0)
+	if (f->precision && OCT(f->conv) && ft_atoi(raw) == 0)
 		return (i);
 	while (raw[j])
 	{
-		if (flags->conversion == 's' && flags->precision == TRUE && i >= flags->precision_count)
+		if (f->conv == 's' && f->precision == TRUE && i >= f->prec_num)
 			break ;
-		str[i] = raw[j];
-		i++;
-		j++;
+		str[i++] = raw[j++];
 	}
 	return (i);
 }
 
-void	strcpy_wflags(char *str, int *count_out, t_conv_flags *flags, va_list ap)
+void	strcpy_wflags(char *str, int *count_out,
+						t_conv_flags *f, va_list ap)
 {
 	char	*raw;
 	size_t	raw_len;
 	size_t	i;
-	size_t 	j;
+	size_t	j;
 
 	i = 0;
 	j = 0;
-	raw = flags->arg_function(ap, flags);
+	raw = f->arg_function(ap, f);
 	if (raw == NULL)
 		return ;
 	raw_len = ft_strlen(raw);
-    precision_handling(flags, &raw_len, raw);
-    if (flags->zero == TRUE)
-        i += cpy_0x(flags, &str[i + *count_out], raw, &raw_len);
-	i += cpy_width(flags, &str[i + *count_out], raw_len);
-	if (flags->zero == FALSE)
-        i += cpy_0x(flags, &str[i + *count_out], raw, &raw_len);
-	i += cpy_precision(flags, &str[i + *count_out], raw_len);
-	i += cpy_raw(flags, &str[i + *count_out], raw, raw_len);
-	i += cpy_endwidth(flags, &str[i + *count_out], raw_len);
+	precision_handling(f, &raw_len, raw);
+	if (f->zero == TRUE)
+		i += cpy_0x(f, &str[i + *count_out], raw, &raw_len);
+	i += cpy_width(f, &str[i + *count_out], raw_len);
+	if (f->zero == FALSE)
+		i += cpy_0x(f, &str[i + *count_out], raw, &raw_len);
+	i += cpy_precision(f, &str[i + *count_out], raw_len);
+	i += cpy_raw(f, &str[i + *count_out], raw, raw_len);
+	i += cpy_endwidth(f, &str[i + *count_out], raw_len);
 	*count_out += i;
 	free(raw);
 }

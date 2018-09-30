@@ -6,7 +6,7 @@
 #    By: acakste <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/18 16:32:24 by acakste           #+#    #+#              #
-#    Updated: 2018/09/23 06:59:42 by acakste          ###   ########.fr        #
+#    Updated: 2018/09/26 21:13:36 by acakste          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = printf.c\
 	  helpers_2.c\
 	  lib_functions.c\
 	  read.c\
+	  read2.c\
 	  cpy.c\
 	  cpy_2.c\
 
@@ -29,6 +30,7 @@ OBJ = printf.o\
 	  helpers_2.o\
 	  lib_functions.o\
 	  read.o\
+	  read2.o\
 	  cpy.o\
 	  cpy_2.o\
 

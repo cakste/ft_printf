@@ -12,25 +12,28 @@
 
 #include <ft_printf.h>
 
-size_t    cpy_0x(t_conv_flags *flags, char *str, char *raw, size_t *raw_len)
+size_t	cpy_0x(t_conv_flags *flags, char *str, char *raw, size_t *raw_len)
 {
-    if (ft_atoi(raw) != 0 && (flags->conversion == 'x' || flags->conversion == 'X') && flags->sharp == TRUE)
+	if (raw[0] != '0' && (flags->conv == 'x' || flags->conv == 'X')
+			&& flags->sharp == TRUE)
 	{
 		str[0] = '0';
-		str[1] = flags->conversion;
-        return (2);
+		str[1] = flags->conv;
+		return (2);
 	}
-	else if (flags->plus == TRUE && (flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I') && ft_atoi(raw) >= 0)
+	else if (flags->plus == TRUE && (INT(flags->conv) || LONG(flags->conv))
+			&& ft_atoi(raw) >= 0)
 	{
-			str[0] = '+';
-			return (1);
+		str[0] = '+';
+		return (1);
 	}
-	else if (raw[0] == '-' && (flags->zero == TRUE || flags->precision_count >= *raw_len) &&(flags->conversion == 'd' || flags->conversion == 'D' || flags->conversion == 'i' || flags->conversion == 'I'))
+	else if (raw[0] == '-' && (flags->zero == TRUE || flags->prec_num >=
+					*raw_len) && (INT(flags->conv) || LONG(flags->conv)))
 	{
 		str[0] = '-';
 		return (1);
 	}
-    return (0);
+	return (0);
 }
 
 size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len)
@@ -38,14 +41,13 @@ size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len)
 	size_t	i;
 	size_t	taken;
 
-	//printf("CPY WIDTH raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
 	i = 0;
-	taken = (raw_len > flags->precision_count) ? raw_len : flags->precision_count;
-	if ((flags->conversion == 's' || flags->conversion == 'S') && flags->precision && raw_len > flags->precision_count)
-		taken = flags->precision_count;		
-	if (flags->minus == FALSE && flags->width == TRUE && flags->width_count > taken)//flags->precision_count + raw_len) // && flags->precision_count < flags->width_count
+	taken = (raw_len > flags->prec_num) ? raw_len : flags->prec_num;
+	if (STR(flags->conv) && flags->precision && raw_len > flags->prec_num)
+		taken = flags->prec_num;
+	if (flags->minus == FALSE && flags->width && flags->width_num > taken)
 	{
-		while (i + taken < (flags->width_count))
+		while (i + taken < (flags->width_num))
 		{
 			str[i] = (flags->zero == TRUE) ? '0' : ' ';
 			i++;
@@ -54,19 +56,19 @@ size_t	cpy_width(t_conv_flags *flags, char *str, size_t raw_len)
 	return (i);
 }
 
-size_t cpy_endwidth(t_conv_flags *flags, char *str, size_t raw_len)
+size_t	cpy_endwidth(t_conv_flags *flags, char *str, size_t raw_len)
 {
-	size_t i;
+	size_t	i;
 	size_t	taken;
 
 	i = 0;
-	taken = (raw_len > flags->precision_count) ? raw_len : flags->precision_count;
-	if ((flags->conversion == 's' || flags->conversion == 'S') && flags->precision && raw_len > flags->precision_count)
-		taken = flags->precision_count;
+	taken = (raw_len > flags->prec_num) ? raw_len : flags->prec_num;
+	if ((flags->conv == 's' || flags->conv == 'S') &&
+			flags->precision && raw_len > flags->prec_num)
+		taken = flags->prec_num;
 	if (flags->minus == TRUE)
 	{
-		//printf("raw_len: %zu flags->widthcount: %zu,  precision_count: %zu\n", raw_len, flags->width_count, flags->precision_count);
-		while (i + taken < flags->width_count)
+		while (i + taken < flags->width_num)
 		{
 			str[i] = ' ';
 			i++;
